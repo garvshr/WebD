@@ -6,6 +6,7 @@ const operatorButtons = document.querySelectorAll('.operator')
 const equalButton = document.querySelector('.equal')
 const result = document.querySelector('.result')
 const clearButton = document.querySelector('.clear')
+const display = document.querySelector('.display')
 
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -13,12 +14,18 @@ numberButtons.forEach(button => {
             num1 += button.textContent
         else
             num2 += button.textContent
+        updateDisplay()
     })
 })
 
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
+        if(num1 !== "" && operator !== "" && num2 !== "") {
+            num1 = operate(operator, parseFloat(num1), parseFloat(num2)).toString()
+            num2 = ""
+        }
         operator = button.textContent
+        updateDisplay()
     })
 })
 
@@ -30,8 +37,13 @@ clearButton.addEventListener('click', () => {
     num1 = ""
     num2 = ""
     operator = ""
+    updateDisplay()
     result.textContent = ""
 })
+
+function updateDisplay() {
+    display.textContent = `${num1} ${operator} ${num2}`.trim()
+}
 
 function add(num1, num2) {
     return num1 + num2;
